@@ -55,14 +55,14 @@ public class DataStorage implements Serializable {
     public String getAname(){
         return aname;
     }
-    public void setAname(String bname){
+    public void setAname(String aname){
         this.aname = aname;
     }
 
     public String getPname(){
         return pname;
     }
-    public void setPname(String panme){
+    public void setPname(String pname){
         this.pname = pname;
     }
 

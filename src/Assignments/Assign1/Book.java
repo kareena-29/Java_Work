@@ -6,12 +6,15 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.JTableHeader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.xml.crypto.Data;
 
 class BookData extends JFrame {
@@ -25,8 +28,9 @@ class BookData extends JFrame {
     JFrame fr;
     Container cont;
     Font f, f1;
-    int s[], top, num;
-    ArrayList<DataStorage> finaldatalist = new ArrayList<>();
+    int s[], top, num, flag;
+
+    ArrayList<DataStorage> finaldatalist1 = new ArrayList<>();
 
     BookData() {
         super("BOOK DATA");
@@ -36,8 +40,6 @@ class BookData extends JFrame {
         cont = getContentPane();
         cont.setLayout(null);
 
-//        cont.setBackground(Color.DARK_GRAY);
-//        cont.setBackground(new Color(53,53,53));
         cont.setBackground(new Color(21, 50, 67));
 
 
@@ -60,11 +62,6 @@ class BookData extends JFrame {
         j7 = new JTextField();
         j8 = new JTextField();
 
-//        jj = new JTextArea();
-//        jj.setBounds(800, 190, 500, 500);
-//        f = new Font("Century Gothic", Font.TYPE1_FONT, 10);
-//        jj.setFont(f);
-//        cont.add(jj);
 
         f = new Font("Century Gothic", Font.BOLD, 38);
         lab.setBounds(660, 20, 400, 100);
@@ -143,28 +140,6 @@ class BookData extends JFrame {
         jb1.setFont(f);
         cont.add(jb1);
         fr = new JFrame();
-        jb1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 ||
-                        j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 ||
-                        j7.getText().length() == 0 || j8.getText().length() == 0) {
-                    JOptionPane.showMessageDialog(fr, "Text field is mandatory\n", "Alert", JOptionPane.WARNING_MESSAGE);
-                }
-//                else {
-//                    j1.setText("");
-//                    j2.setText("");
-//                    j3.setText("");
-//                    j4.setText("");
-//                    j5.setText("");
-//                    j6.setText("");
-//                    j7.setText("");
-//                    j8.setText("");
-//
-//                }
-            }
-        });
 
         jb2 = new JButton("UPDATE");
         jb2.setBounds(423, 693, 96, 30);
@@ -190,18 +165,30 @@ class BookData extends JFrame {
         jb4.setFont(f);
         cont.add(jb4);
 
-        DefaultTableModel dtm = new DefaultTableModel();
-        JTable table = new JTable(dtm);
-        String header[] = new String[] {"Book-id", "Book Name", "Author Name", "Publisher's Name",
-                "Date of Publication", "Price", "Quantity", "Total Price"};
-        dtm.setColumnIdentifiers(header);
-        table.setModel(dtm);
-        table.setBounds(800, 190, 500, 500);
-        JScrollPane sp=new JScrollPane(table);
-        cont.add(sp);
-//        cont.add(table);
-        table.setVisible(true);
+        String header[] = new String[] {"Book Id", "Book Name", "Author Name", "Publisher's Name", " Date of Publication", "Price", "Quantity", "Total Cost"};
+        JScrollPane jspBookTable ;
+        DefaultTableModel defaultTableModel = new DefaultTableModel(header, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
 
+            JTable bookTable = new JTable(defaultTableModel);
+            bookTable.setVisible(true);
+
+            jspBookTable = new JScrollPane(bookTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            jspBookTable.setBounds(800, 135, 660, 588);
+            f = new Font("Century Gothic", Font.PLAIN, 13);
+            bookTable.setFont(f);
+            bookTable.getTableHeader().setBackground(new Color(180, 184, 171));
+            bookTable.getTableHeader().setForeground(new Color(21, 50, 67));
+            bookTable.getTableHeader().setBorder(new EmptyBorder(0,0,0,0));
+            bookTable.getTableHeader().setFont(f);
+
+            this.add(jspBookTable);
+            validate();
 
         f = new Font("Century Gothic", Font.TYPE1_FONT, 17);
         l1.setFont(f);
@@ -246,7 +233,7 @@ class BookData extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         //Price calculation Event
-        j7.addKeyListener(new KeyAdapter() {
+        j6.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 String s1 = j6.getText();
@@ -254,8 +241,35 @@ class BookData extends JFrame {
                 int qty = Integer.parseInt(s1);
                 int price = Integer.parseInt(s2);
                 int total = qty * price;
-//                int t = total;
-//        p = price;
+
+                String result = String.valueOf(total);
+                j8.setText(result);
+            }
+
+        });
+        j7.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String s1 = j6.getText();
+                String s2 = j7.getText();
+                int qty = Integer.parseInt(s1);
+                int price = Integer.parseInt(s2);
+                int total = qty * price;
+
+                String result = String.valueOf(total);
+                j8.setText(result);
+            }
+
+        });
+        j8.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String s1 = j6.getText();
+                String s2 = j7.getText();
+                int qty = Integer.parseInt(s1);
+                int price = Integer.parseInt(s2);
+                int total = qty * price;
 
                 String result = String.valueOf(total);
                 j8.setText(result);
@@ -263,168 +277,288 @@ class BookData extends JFrame {
 
         });
 
-//
-//        ArrayList<DataStorage> datafile = new ArrayList<>();
 //      event on submit button
         FinalData fdata = new FinalData();
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bname = j1.getText();
-                aname = j2.getText();
-                String stt = j3.getText();
-                id = Integer.parseInt(stt);
-                pname = j4.getText();
-                dt = j1.getText();
-                String st1 = j6.getText();
-                p = Integer.parseInt(st1);
-                String st2 = j7.getText();
-                q = Integer.parseInt(st2);
-                String st3 = j8.getText();
-                t = Integer.parseInt(st3);
 
-//                try{
-//                    FileOutputStream fos = new FileOutputStream("Books.dat");
-//                    BufferedOutputStream bos = new BufferedOutputStream(fos);
-//                    ObjectOutputStream oos = new ObjectOutputStream(bos);
+                if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 ||
+                        j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 ||
+                        j7.getText().length() == 0 || j8.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(fr, "Text field is mandatory\n", "Alert", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    bname = j1.getText();
+                    aname = j2.getText();
+                    String stt = j3.getText();
+                    id = Integer.parseInt(stt);
+                    pname = j4.getText();
+                    dt = j5.getText();
+                    String st1 = j6.getText();
+                    p = Integer.parseInt(st1);
+                    String st2 = j7.getText();
+                    q = Integer.parseInt(st2);
+                    String st3 = j8.getText();
+                    t = Integer.parseInt(st3);
 
-//                    DataStorage dst = new DataStorage();
-//                    dst.bname = bname;
-//                    dst.aname = aname;
-//                    dst.id = id;
-//                    dst.dt = dt;
-//                    dst.pname = pname;
-//                    dst.p = p;
-//                    dst.q = q;
-//                    dst.t = t;
-//                    datafile.add(dst);
-////                    oos.writeObject(dst);
-////                    oos.close();
+                    if(flag == 1){
+                    flag = 0;
+                    for(int i = 0; i < finaldatalist1.size(); i++) {
+                        if (finaldatalist1.get(i).getBid() == id) {
+                            //Then its a update call
+                            DataStorage updata = new DataStorage();
+                            updata.setBname(bname);
+                            updata.setAname(aname);
+                            updata.setBid(id);
+                            updata.setPname(pname);
+                            updata.setDateofpub(dt);
+                            updata.setBookp(p);
+                            updata.setBookq(q);
+                            updata.setTotalcost(t);
+
+                            ArrayList<DataStorage> upList = new ArrayList<>();
+                            try {
+                                DataStorage obj;
+                                FileInputStream filein = new FileInputStream("Books.dat");
+                                ObjectInputStream objin = new ObjectInputStream(filein);
+
+                                while (filein.available() != 0) {
+                                    obj = (DataStorage) objin.readObject();
+                                    if (obj.getBid() == id) {
+                                        upList.add(updata);
+                                    } else {
+                                        upList.add(obj);
+                                    }
+                                }
+                                filein.close();
+                                objin.close();
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                File f = new File("Books.dat");
+                                FileOutputStream fileout = null;
+                                fileout = new FileOutputStream("Books.dat");
 //
-//
-//                }
-//                catch(Exception ex){
-//                    ex.printStackTrace();
-//                }
+                                // If there is nothing to be write onto file
+                                if (f.length() == 0) {
+                                    ObjectOutputStream oos = new ObjectOutputStream(fileout);
+                                    for (DataStorage ob: upList) {
+                                        oos.writeObject(ob);
+                                    }
+                                    oos.close();
+                                }
+                                // There is content in file to be write on
+                                else {
+                                    MyObjectOutputStream oos = null;
+                                    oos = new MyObjectOutputStream(fileout);
+                                    for (DataStorage ob: upList) {
+                                        oos.writeObject(ob);
+                                    }
+                                    oos.close();
+                                }
+                            } catch (Exception ex) {
 
-//                DataStorage dataob = new DataStorage();
-//                dataob.setBname(bname);
-//                dataob.setAname(aname);
-//                dataob.setBid(id);
-//                dataob.setPname(pname);
-//                dataob.setDateofpub(dt);
-//                dataob.setBookp(p);
-//                dataob.setBookq(q);
-//                dataob.setTotalcost(t);
+                                // Print the exception along with the
+                                // display message
+                                System.out.println("Error Occurred" + ex);
+                            }
+                            j1.setText("");
+                            j2.setText("");
+                            j3.setText("");
+                            j4.setText("");
+                            j5.setText("");
+                            j6.setText("");
+                            j7.setText("");
+                            j8.setText("");
+                            finaldatalist1 = upList;
+                        }
+                    }
+                    }
+                        else{
+                        try {
+                            DataStorage obj;
+                            FileInputStream filein = new FileInputStream("Books.dat");
+                            ObjectInputStream objin = new ObjectInputStream(filein);
+
+                            while (filein.available() != 0) {
+                                obj = (DataStorage) objin.readObject();
+                                if (obj.getBid() == id) {
+                                    filein.close();
+                                    objin.close();
+                                    JOptionPane.showMessageDialog(fr, "Only Unique id's are permitted\n", "Alert", JOptionPane.WARNING_MESSAGE);
+                                    return;
+
+                                }
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                            try {
+
+                                DataStorage dataob = new DataStorage();
+                                dataob.setBname(bname);
+                                dataob.setAname(aname);
+                                dataob.setBid(id);
+                                dataob.setPname(pname);
+                                dataob.setDateofpub(dt);
+                                dataob.setBookp(p);
+                                dataob.setBookq(q);
+                                dataob.setTotalcost(t);
+
+                                System.out.println("I am here in read");
+
+                                fdata.addBook(dataob);
+
+                                File f = new File("Books.dat");
+                                FileOutputStream fileout = null;
+                                fileout = new FileOutputStream("Books.dat", true);
+
+                                // If there is nothing to be write onto file
+                                if (f.length() == 0) {
+                                    ObjectOutputStream oos = new ObjectOutputStream(fileout);
+                                    oos.writeObject(dataob);
+                                    finaldatalist1.add(dataob);
+                                    System.out.println(dataob);
+                                    oos.close();
+                                }
+
+                                // There is content in file to be write on
+                                else {
+
+                                    MyObjectOutputStream oos = null;
+                                    oos = new MyObjectOutputStream(fileout);
+                                    oos.writeObject(dataob);
+                                    finaldatalist1.add(dataob);
+                                    // Closing the FileOutputStream object
+                                    // to release memory resources
+                                    oos.close();
+                                }
+
+                                // Closing the File class object to avoid
+                                // read-write
+                                fileout.close();
+                                j1.setText("");
+                                j2.setText("");
+                                j3.setText("");
+                                j4.setText("");
+                                j5.setText("");
+                                j6.setText("");
+                                j7.setText("");
+                                j8.setText("");
+//                    System.out.println("I am here in end");
+
+                            }
+
+                            // Catch block to handle the exceptions
+                            catch (Exception ex) {
+                                // Print the exception along with the
+                                // display message
+                                System.out.println("Error Occurred" + ex);
+                            }
+                        }
+                    }
+                }
+
+        });
+        jb2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = bookTable.getSelectedRow();
+                flag = 1;
+
+                String sa1 = defaultTableModel.getValueAt(row,0).toString();
+//                int i1 = Integer.parseInt(sa1);
+                j3.setText(sa1);
+                String sa2 = defaultTableModel.getValueAt(row,1).toString();
+                j1.setText(sa2);
+                String sa3 = defaultTableModel.getValueAt(row,2).toString();
+                j2.setText(sa3);
+                String sa4 = defaultTableModel.getValueAt(row,3).toString();
+                j4.setText(sa4);
+                String sa5 = defaultTableModel.getValueAt(row,4).toString();
+                j5.setText(sa5);
+                String sa6 = defaultTableModel.getValueAt(row,5).toString();
+                j6.setText(sa6);
+//                int i2 = Integer.parseInt(sa6);
+                String sa7 = defaultTableModel.getValueAt(row,6).toString();
+                j7.setText(sa7);
+//                int i3 = Integer.parseInt(sa6);
+                String sa8 = defaultTableModel.getValueAt(row,7).toString();
+                j8.setText(sa8);
+//                int i4 = i2*i3;
+            }
+        });
+        jb3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = bookTable.getSelectedRow();
+                String s = defaultTableModel.getValueAt(row,0).toString();
+                int bookid = Integer.parseInt(s);
+                ArrayList<DataStorage> deleteData = new ArrayList<>();
                 try {
-//                    DataStorage dataob = new DataStorage(id,bname,aname,pname,dt,p,q,t);
-                 DataStorage dataob = new DataStorage();
-                dataob.setBname(bname);
-                dataob.setAname(aname);
-                dataob.setBid(id);
-                dataob.setPname(pname);
-                dataob.setDateofpub(dt);
-                dataob.setBookp(p);
-                dataob.setBookq(q);
-                dataob.setTotalcost(t);
+                    DataStorage obj;
+                    FileInputStream filein = new FileInputStream("Books.dat");
+                    ObjectInputStream objin = new ObjectInputStream(filein);
 
-                    System.out.println("I am here in read");
+                    while(filein.available() != 0){
+                        obj = (DataStorage)objin.readObject();
+                        if(obj.getBid() != bookid){
+                            deleteData.add(obj);
+                        }
+//
+                    }
+                    filein.close();
+                    objin.close();
 
-                    fdata.addBook(dataob);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                if(row >= 0){
+                    defaultTableModel.removeRow(row);
+                }
+                else{
+                    JOptionPane.showMessageDialog(fr, "Delete Error\n", "Alert", JOptionPane.WARNING_MESSAGE);
+                }
 
+                try{
                     File f = new File("Books.dat");
                     FileOutputStream fileout = null;
-                    fileout = new FileOutputStream("Books.dat", true);
-
+                    fileout = new FileOutputStream("Books.dat");
+//
                     // If there is nothing to be write onto file
                     if (f.length() == 0) {
                         ObjectOutputStream oos = new ObjectOutputStream(fileout);
-                        oos.writeObject(dataob);
+                        for(DataStorage ob: deleteData){
+                            oos.writeObject(ob);
+                        }
                         oos.close();
                     }
-
                     // There is content in file to be write on
                     else {
-
                         MyObjectOutputStream oos = null;
                         oos = new MyObjectOutputStream(fileout);
-                        oos.writeObject(dataob);
-
-                        // Closing the FileOutputStream object
-                        // to release memory resources
+                        for(DataStorage ob: deleteData){
+                            oos.writeObject(ob);
+                        }
                         oos.close();
                     }
-
-                    // Closing the File class object to avoid
-                    // read-write
-                    fileout.close();
-
-                    System.out.println("I am here in end");
-
-                }
-
-                // Catch block to handle the exceptions
-                catch (Exception ex) {
+                }catch (Exception ex) {
 
                     // Print the exception along with the
                     // display message
                     System.out.println("Error Occurred" + ex);
                 }
-//                try {
-//
-//
-//
-//                    objout.writeObject(dataob);
-//                    objout.flush();
-//                    objout.close();
-//
-//
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
+                finaldatalist1 = deleteData;
             }
         });
-
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                try{
-//                    FileOutputStream fos = new FileOutputStream("Books.dat");
-//                    BufferedOutputStream bos = new BufferedOutputStream(fos);
-//                    ObjectOutputStream oos = new ObjectOutputStream(bos);
-//
-//                    oos.writeObject(datafile);
-//                    oos.close();
-//
-//                    FileInputStream fis = new FileInputStream("Books.dat");
-//                    BufferedInputStream bis = new BufferedInputStream(fis);
-//                    ObjectInputStream ois = new ObjectInputStream(bis);
-//
-//                    ArrayList datafile2 = (ArrayList<DataStorage>)ois.readObject();
-//                    ois.close();
-//                    cont.removeAll();
 
-//                    for(int i = 0; i < datafile2.size(); i++){
-//
-////                        System.out.println(datafile2.toString());
-//                        jj.setText(datafile2.toString());
-//                    }
-//                    DataStorage dts = new DataStorage();
-
-//                    for(Object dts: datafile2) {
-//                        jj.setText(dts.toString());
-//                    }
-//                }
-//
-//                catch(IOException ex){
-//                    ex.printStackTrace();
-//                }
-//                catch(ClassNotFoundException ex){
-//                    ex.printStackTrace();
-//                }
-//
-//            }
-
+                ArrayList<DataStorage> finaldatalist = new ArrayList<>();
                 try {
                     System.out.println("I am here in load");
 
@@ -435,116 +569,32 @@ class BookData extends JFrame {
                     while(filein.available() != 0){
                         obj = (DataStorage)objin.readObject();
                         finaldatalist.add(obj);
-                        System.out.println(obj);
+//                        System.out.println(obj);
                     }
                     filein.close();
                     objin.close();
 
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+
+                while(defaultTableModel.getRowCount() > 0)
+                {
+                    defaultTableModel.removeRow(0);
+                }
+                for(int i = 0; i < finaldatalist.size(); i++){
+
+                        Object[] objs = {finaldatalist.get(i).getBid(),finaldatalist.get(i).getBname(),finaldatalist.get(i).getAname(),finaldatalist.get(i).getPname(),
+                                finaldatalist.get(i).getDateofpub(),finaldatalist.get(i).getBookq(), finaldatalist.get(i).getBookp(), finaldatalist.get(i).getTotalcost()};
+                        defaultTableModel.addRow(objs);
+//                    System.out.println(finaldatalist1.get(i).getBid());
+
+                }
             }
         });
-//        jb3.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                try{
-//
-//
-//                }
-//                catch (IOException ex){
-//                    ex.printStackTrace();
-//                }
-//
-//
-//            }
-//        }
-
-
-//    @Override
-//    public void actionPerformed(ActionEvent ae) {
-//        String s1 = l6.getText();
-//        String s2 =  l7.getText()
-//        int qty = Integer.parseInt(s1);
-//        int price = Integer.parseInt(s2);
-//        int total = qty*price;
-//
-//        String result = String.valueOf(total);
-//        j8.setText(result);
-
-        //        String st1,st2,st3,st4,st5,st6="";
-//        String st = ae.getActionCommand();
-//        f = new Font("Calibari",Font.BOLD,15);
-//
-//
-//        if(st.equals("PUSH"))
-//        {
-//            j2.setText("");
-//            j3.setText("");
-//            if(top==4)
-//            {
-//                st1="  STACK OVERFLOW!    ";
-//                j1.setText(st1);
-//                j1.setFont(f);
-//
-//            }
-//
-//            else {
-//
-//                st2 = j1.getText();
-//                num = Integer.parseInt(st2);
-//                s[++top]=num;
-//                j1.setText("");
-//            }
-//
-//        }
-//        else if(st.equals("POP"))
-//        {
-//            j1.setText("");
-//            j3.setText("");
-//            if(top==-1)
-//            {
-//                st3 ="  STACK UNDERFLOW!    ";
-//                j2.setText(st3);
-//                j2.setFont(f);
-//            }
-//            else
-//            {
-//                num = s[top--];
-//                st4 = Integer.toString(num);
-//                j2.setText(st4);
-//                j2.setFont(f);
-//            }
-//        }
-//        else if(st.equals("DISPLAY"))
-//        {
-//            f1 = new Font("Calibari",Font.BOLD,20);
-//            j1.setText("");
-//            j2.setText("");
-//            int i;
-//            if(top==-1)
-//            {
-//                st5 ="  EMPTY STACK!    ";
-//                j3.setText(st5);
-//                j3.setFont(f1);
-//            }
-//            else
-//            {
-//                String t;
-//                for(i=top;i>=0;i--)
-//                {
-//                    t = Integer.toString(s[i]);
-//                    st6 = st6 + t;
-//                    st6 = st6 + '\t';
-//                }
-//                j3.setText(st6);
-//                j3.setFont(f1);
-//            }
-//        }
-
-
     }
+
+
 }
 //});
 class MyObjectOutputStream extends ObjectOutputStream {
