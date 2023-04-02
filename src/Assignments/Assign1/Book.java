@@ -1,34 +1,32 @@
 package Assignments.Assign1;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
+
+import com.raven.datechooser.DateChooser;
+
+import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.JTableHeader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.xml.crypto.Data;
 
 class BookData extends JFrame {
-    JTextArea jj;
     String bname, aname, pname, dt;
     int p, q, t, id;
     JTextField j1, j2, j3, j4, j5, j6, j7, j8;
     //    JTextArea j3;
-    JButton jb1, jb2, jb3, jb4;
+    JButton jb1, jb2, jb3, jb4, jb5;
     JLabel l1, l2, l3, lab, l4, l5, l6, l7, l8;
     JFrame fr;
     Container cont;
-    Font f, f1;
-    int s[], top, num, flag;
+    Font f;
+    int[] s;
+    int top;
+    int flag;
 
     ArrayList<DataStorage> finaldatalist1 = new ArrayList<>();
 
@@ -39,9 +37,7 @@ class BookData extends JFrame {
 
         cont = getContentPane();
         cont.setLayout(null);
-
         cont.setBackground(new Color(21, 50, 67));
-
 
         l1 = new JLabel("ENTER BOOK NAME: ");
         l2 = new JLabel("ENTER AUTHOR NAME/NAMES: ");
@@ -62,14 +58,12 @@ class BookData extends JFrame {
         j7 = new JTextField();
         j8 = new JTextField();
 
-
         f = new Font("Century Gothic", Font.BOLD, 38);
         lab.setBounds(660, 20, 400, 100);
         lab.setFont(f);
         lab.setForeground(new Color(180, 184, 171));
 
         f = new Font("Century Gothic", Font.PLAIN, 16);
-
         l1.setBounds(50, 120, 300, 50);
         l2.setBounds(50, 190, 300, 50);
         l3.setBounds(50, 260, 300, 50);
@@ -79,7 +73,6 @@ class BookData extends JFrame {
         l7.setBounds(50, 540, 300, 50);
         l8.setBounds(50, 610, 300, 50);
 
-
         j1.setBounds(305, 133, 450, 30);
         j2.setBounds(305, 203, 450, 30);
         j3.setBounds(305, 273, 450, 30);
@@ -88,7 +81,6 @@ class BookData extends JFrame {
         j6.setBounds(305, 483, 450, 30);
         j7.setBounds(305, 553, 450, 30);
         j8.setBounds(305, 623, 450, 30);
-
 
         //TextFiled Design
         Border border = BorderFactory.createEmptyBorder();
@@ -107,6 +99,7 @@ class BookData extends JFrame {
         j5.setBackground(new Color(180, 184, 171));
         j5.setBorder(border);
         j5.setForeground(new Color(21, 50, 67));
+
         j6.setBackground(new Color(180, 184, 171));
         j6.setBorder(border);
         j6.setForeground(new Color(21, 50, 67));
@@ -117,7 +110,6 @@ class BookData extends JFrame {
         j8.setBorder(border);
         j8.setForeground(new Color(21, 50, 67));
 
-
         l1.setForeground(new Color(244, 249, 233));
         l2.setForeground(new Color(244, 249, 233));
         l3.setForeground(new Color(244, 249, 233));
@@ -126,12 +118,8 @@ class BookData extends JFrame {
         l6.setForeground(new Color(244, 249, 233));
         l7.setForeground(new Color(244, 249, 233));
         l8.setForeground(new Color(244, 249, 233));
-
-
         //Button Design
-
         f = new Font("Century Gothic", Font.TYPE1_FONT, 14);
-
         jb1 = new JButton("SUBMIT");
         jb1.setBounds(305, 693, 96, 30);
         jb1.setBackground(new Color(180, 184, 171));
@@ -165,8 +153,29 @@ class BookData extends JFrame {
         jb4.setFont(f);
         cont.add(jb4);
 
-        String header[] = new String[] {"Book Id", "Book Name", "Author Name", "Publisher's Name", " Date of Publication", "Price", "Quantity", "Total Cost"};
-        JScrollPane jspBookTable ;
+//        Icon icon = new ImageIcon("calendar-(1).png");
+        jb5 = new JButton();
+        try {
+            Image img = ImageIO.read(getClass().getResource("calendar-(1).png"));
+            jb5.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        jb5.setBounds(725, 413, 30, 30);
+        jb5.setBackground(new Color(180, 184, 171));
+        jb5.setBorderPainted(false);
+        cont.add(jb5);
+
+        DateChooser dateChooser = new DateChooser();
+        dateChooser.setTextRefernce(j5);
+        dateChooser.setForeground(new Color(21, 50, 67));
+        jb5.addActionListener(event -> {
+            dateChooser.showPopup();
+        });
+
+        String[] header = new String[]{"Book Id", "Book Name", "Author Name", "Publisher's Name", " Date of Publication", "Price", "Quantity", "Total Cost"};
+        JScrollPane jspBookTable;
         DefaultTableModel defaultTableModel = new DefaultTableModel(header, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -175,20 +184,18 @@ class BookData extends JFrame {
             }
         };
 
-            JTable bookTable = new JTable(defaultTableModel);
-            bookTable.setVisible(true);
-
-            jspBookTable = new JScrollPane(bookTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            jspBookTable.setBounds(800, 135, 660, 588);
-            f = new Font("Century Gothic", Font.PLAIN, 13);
-            bookTable.setFont(f);
-            bookTable.getTableHeader().setBackground(new Color(180, 184, 171));
-            bookTable.getTableHeader().setForeground(new Color(21, 50, 67));
-            bookTable.getTableHeader().setBorder(new EmptyBorder(0,0,0,0));
-            bookTable.getTableHeader().setFont(f);
-
-            this.add(jspBookTable);
-            validate();
+        JTable bookTable = new JTable(defaultTableModel);
+        bookTable.setVisible(true);
+        jspBookTable = new JScrollPane(bookTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jspBookTable.setBounds(800, 135, 660, 588);
+        f = new Font("Century Gothic", Font.PLAIN, 13);
+        bookTable.setFont(f);
+        bookTable.getTableHeader().setBackground(new Color(180, 184, 171));
+        bookTable.getTableHeader().setForeground(new Color(21, 50, 67));
+        bookTable.getTableHeader().setBorder(new EmptyBorder(0, 0, 0, 0));
+        bookTable.getTableHeader().setFont(f);
+        this.add(jspBookTable);
+        validate();
 
         f = new Font("Century Gothic", Font.TYPE1_FONT, 17);
         l1.setFont(f);
@@ -228,20 +235,16 @@ class BookData extends JFrame {
         cont.add(j6);
         cont.add(j7);
         cont.add(j8);
-
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         //Price calculation Event
         j6.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 String s1 = j6.getText();
                 String s2 = j7.getText();
-                int qty = Integer.parseInt(s1);
-                int price = Integer.parseInt(s2);
+                int qty = Integer.parseInt(s2);
+                int price = Integer.parseInt(s1);
                 int total = qty * price;
-
                 String result = String.valueOf(total);
                 j8.setText(result);
             }
@@ -253,10 +256,9 @@ class BookData extends JFrame {
             public void keyReleased(KeyEvent e) {
                 String s1 = j6.getText();
                 String s2 = j7.getText();
-                int qty = Integer.parseInt(s1);
-                int price = Integer.parseInt(s2);
+                int qty = Integer.parseInt(s2);
+                int price = Integer.parseInt(s1);
                 int total = qty * price;
-
                 String result = String.valueOf(total);
                 j8.setText(result);
             }
@@ -267,25 +269,21 @@ class BookData extends JFrame {
             public void keyReleased(KeyEvent e) {
                 String s1 = j6.getText();
                 String s2 = j7.getText();
-                int qty = Integer.parseInt(s1);
-                int price = Integer.parseInt(s2);
+                int qty = Integer.parseInt(s2);
+                int price = Integer.parseInt(s1);
                 int total = qty * price;
-
                 String result = String.valueOf(total);
                 j8.setText(result);
             }
 
         });
-
-//      event on submit button
         FinalData fdata = new FinalData();
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 ||
-                        j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 ||
-                        j7.getText().length() == 0 || j8.getText().length() == 0) {
+                        j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 || j7.getText().length() == 0 ||
+                        j8.getText().length() == 0) {
                     JOptionPane.showMessageDialog(fr, "Text field is mandatory\n", "Alert", JOptionPane.WARNING_MESSAGE);
                 } else {
                     bname = j1.getText();
@@ -294,152 +292,70 @@ class BookData extends JFrame {
                     id = Integer.parseInt(stt);
                     pname = j4.getText();
                     dt = j5.getText();
-                    String st1 = j6.getText();
+                    String st1 = j7.getText();
                     p = Integer.parseInt(st1);
-                    String st2 = j7.getText();
+                    String st2 = j6.getText();
                     q = Integer.parseInt(st2);
                     String st3 = j8.getText();
                     t = Integer.parseInt(st3);
 
-                    if(flag == 1){
-                    flag = 0;
-                    for(int i = 0; i < finaldatalist1.size(); i++) {
-                        if (finaldatalist1.get(i).getBid() == id) {
-                            //Then its a update call
-                            DataStorage updata = new DataStorage();
-                            updata.setBname(bname);
-                            updata.setAname(aname);
-                            updata.setBid(id);
-                            updata.setPname(pname);
-                            updata.setDateofpub(dt);
-                            updata.setBookp(p);
-                            updata.setBookq(q);
-                            updata.setTotalcost(t);
+                    if (flag == 1) {
+                        flag = 0;
+                        for (int i = 0; i < finaldatalist1.size(); i++) {
+                            if (finaldatalist1.get(i).getBid() == id) {
+                                //Then it's an update call
+                                DataStorage updata = new DataStorage();
+                                updata.setBname(bname);
+                                updata.setAname(aname);
+                                updata.setBid(id);
+                                updata.setPname(pname);
+                                updata.setDateofpub(dt);
+                                updata.setBookp(p);
+                                updata.setBookq(q);
+                                updata.setTotalcost(t);
+                                ArrayList<DataStorage> upList = new ArrayList<>();
+                                try {
+                                    DataStorage obj;
+                                    FileInputStream filein = new FileInputStream("Books.dat");
+                                    ObjectInputStream objin = new ObjectInputStream(filein);
 
-                            ArrayList<DataStorage> upList = new ArrayList<>();
-                            try {
-                                DataStorage obj;
-                                FileInputStream filein = new FileInputStream("Books.dat");
-                                ObjectInputStream objin = new ObjectInputStream(filein);
-
-                                while (filein.available() != 0) {
-                                    obj = (DataStorage) objin.readObject();
-                                    if (obj.getBid() == id) {
-                                        upList.add(updata);
-                                    } else {
-                                        upList.add(obj);
+                                    while (filein.available() != 0) {
+                                        obj = (DataStorage) objin.readObject();
+                                        if (obj.getBid() == id) {
+                                            upList.add(updata);
+                                        } else {
+                                            upList.add(obj);
+                                        }
                                     }
-                                }
-                                filein.close();
-                                objin.close();
-
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                File f = new File("Books.dat");
-                                FileOutputStream fileout = null;
-                                fileout = new FileOutputStream("Books.dat");
-//
-                                // If there is nothing to be write onto file
-                                if (f.length() == 0) {
-                                    ObjectOutputStream oos = new ObjectOutputStream(fileout);
-                                    for (DataStorage ob: upList) {
-                                        oos.writeObject(ob);
-                                    }
-                                    oos.close();
-                                }
-                                // There is content in file to be write on
-                                else {
-                                    MyObjectOutputStream oos = null;
-                                    oos = new MyObjectOutputStream(fileout);
-                                    for (DataStorage ob: upList) {
-                                        oos.writeObject(ob);
-                                    }
-                                    oos.close();
-                                }
-                            } catch (Exception ex) {
-
-                                // Print the exception along with the
-                                // display message
-                                System.out.println("Error Occurred" + ex);
-                            }
-                            j1.setText("");
-                            j2.setText("");
-                            j3.setText("");
-                            j4.setText("");
-                            j5.setText("");
-                            j6.setText("");
-                            j7.setText("");
-                            j8.setText("");
-                            finaldatalist1 = upList;
-                        }
-                    }
-                    }
-                        else{
-                        try {
-                            DataStorage obj;
-                            FileInputStream filein = new FileInputStream("Books.dat");
-                            ObjectInputStream objin = new ObjectInputStream(filein);
-
-                            while (filein.available() != 0) {
-                                obj = (DataStorage) objin.readObject();
-                                if (obj.getBid() == id) {
                                     filein.close();
                                     objin.close();
-                                    JOptionPane.showMessageDialog(fr, "Only Unique id's are permitted\n", "Alert", JOptionPane.WARNING_MESSAGE);
-                                    return;
-
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
                                 }
-                            }
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-
-                            try {
-
-                                DataStorage dataob = new DataStorage();
-                                dataob.setBname(bname);
-                                dataob.setAname(aname);
-                                dataob.setBid(id);
-                                dataob.setPname(pname);
-                                dataob.setDateofpub(dt);
-                                dataob.setBookp(p);
-                                dataob.setBookq(q);
-                                dataob.setTotalcost(t);
-
-                                System.out.println("I am here in read");
-
-                                fdata.addBook(dataob);
-
-                                File f = new File("Books.dat");
-                                FileOutputStream fileout = null;
-                                fileout = new FileOutputStream("Books.dat", true);
-
-                                // If there is nothing to be write onto file
-                                if (f.length() == 0) {
-                                    ObjectOutputStream oos = new ObjectOutputStream(fileout);
-                                    oos.writeObject(dataob);
-                                    finaldatalist1.add(dataob);
-                                    System.out.println(dataob);
-                                    oos.close();
+                                try {
+                                    File f = new File("Books.dat");
+                                    FileOutputStream fileout = null;
+                                    fileout = new FileOutputStream("Books.dat");
+                                    // If there is nothing to be written onto file
+                                    if (f.length() == 0) {
+                                        ObjectOutputStream oos = new ObjectOutputStream(fileout);
+                                        for (DataStorage ob : upList) {
+                                            oos.writeObject(ob);
+                                        }
+                                        oos.close();
+                                    }
+                                    // There is content in file to be written on
+                                    else {
+                                        MyObjectOutputStream oos = null;
+                                        oos = new MyObjectOutputStream(fileout);
+                                        for (DataStorage ob : upList) {
+                                            oos.writeObject(ob);
+                                        }
+                                        oos.close();
+                                    }
+                                } catch (Exception ex) {
+                                    System.out.println("Error Occurred" + ex);
                                 }
-
-                                // There is content in file to be write on
-                                else {
-
-                                    MyObjectOutputStream oos = null;
-                                    oos = new MyObjectOutputStream(fileout);
-                                    oos.writeObject(dataob);
-                                    finaldatalist1.add(dataob);
-                                    // Closing the FileOutputStream object
-                                    // to release memory resources
-                                    oos.close();
-                                }
-
-                                // Closing the File class object to avoid
-                                // read-write
-                                fileout.close();
                                 j1.setText("");
                                 j2.setText("");
                                 j3.setText("");
@@ -448,107 +364,144 @@ class BookData extends JFrame {
                                 j6.setText("");
                                 j7.setText("");
                                 j8.setText("");
-//                    System.out.println("I am here in end");
-
+                                finaldatalist1 = upList;
                             }
-
-                            // Catch block to handle the exceptions
-                            catch (Exception ex) {
-                                // Print the exception along with the
-                                // display message
-                                System.out.println("Error Occurred" + ex);
+                        }
+                    } else {
+                        try {
+                            DataStorage obj;
+                            FileInputStream filein = new FileInputStream("Books.dat");
+                            ObjectInputStream objin = new ObjectInputStream(filein);
+                            while (filein.available() != 0) {
+                                obj = (DataStorage) objin.readObject();
+                                if (obj.getBid() == id) {
+                                    filein.close();
+                                    objin.close();
+                                    JOptionPane.showMessageDialog(fr, "Only Unique id's are permitted\n", "Alert", JOptionPane.WARNING_MESSAGE);
+                                    return;
+                                }
                             }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            DataStorage dataob = new DataStorage();
+                            dataob.setBname(bname);
+                            dataob.setAname(aname);
+                            dataob.setBid(id);
+                            dataob.setPname(pname);
+                            dataob.setDateofpub(dt);
+                            dataob.setBookp(p);
+                            dataob.setBookq(q);
+                            dataob.setTotalcost(t);
+                            fdata.addBook(dataob);
+
+                            File f = new File("Books.dat");
+                            FileOutputStream fileout = null;
+                            fileout = new FileOutputStream("Books.dat", true);
+                            // If there is nothing to be written onto file
+                            if (f.length() == 0) {
+                                ObjectOutputStream oos = new ObjectOutputStream(fileout);
+                                oos.writeObject(dataob);
+                                finaldatalist1.add(dataob);
+                                System.out.println(dataob);
+                                oos.close();
+                            }
+                            // There is content in file to be written on
+                            else {
+                                MyObjectOutputStream oos = null;
+                                oos = new MyObjectOutputStream(fileout);
+                                oos.writeObject(dataob);
+                                finaldatalist1.add(dataob);
+                                // Closing the FileOutputStream object
+                                // to release memory resources
+                                oos.close();
+                            }
+                            fileout.close();
+                            j1.setText("");
+                            j2.setText("");
+                            j3.setText("");
+                            j4.setText("");
+                            j5.setText("");
+                            j6.setText("");
+                            j7.setText("");
+                            j8.setText("");
+                        } catch (Exception ex) {
+                            System.out.println("Error Occurred" + ex);
                         }
                     }
                 }
-
+            }
         });
         jb2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = bookTable.getSelectedRow();
                 flag = 1;
-
-                String sa1 = defaultTableModel.getValueAt(row,0).toString();
-//                int i1 = Integer.parseInt(sa1);
+                String sa1 = defaultTableModel.getValueAt(row, 0).toString();
                 j3.setText(sa1);
-                String sa2 = defaultTableModel.getValueAt(row,1).toString();
+                String sa2 = defaultTableModel.getValueAt(row, 1).toString();
                 j1.setText(sa2);
-                String sa3 = defaultTableModel.getValueAt(row,2).toString();
+                String sa3 = defaultTableModel.getValueAt(row, 2).toString();
                 j2.setText(sa3);
-                String sa4 = defaultTableModel.getValueAt(row,3).toString();
+                String sa4 = defaultTableModel.getValueAt(row, 3).toString();
                 j4.setText(sa4);
-                String sa5 = defaultTableModel.getValueAt(row,4).toString();
+                String sa5 = defaultTableModel.getValueAt(row, 4).toString();
                 j5.setText(sa5);
-                String sa6 = defaultTableModel.getValueAt(row,5).toString();
+                String sa6 = defaultTableModel.getValueAt(row, 5).toString();
                 j6.setText(sa6);
-//                int i2 = Integer.parseInt(sa6);
-                String sa7 = defaultTableModel.getValueAt(row,6).toString();
+                String sa7 = defaultTableModel.getValueAt(row, 6).toString();
                 j7.setText(sa7);
-//                int i3 = Integer.parseInt(sa6);
-                String sa8 = defaultTableModel.getValueAt(row,7).toString();
+                String sa8 = defaultTableModel.getValueAt(row, 7).toString();
                 j8.setText(sa8);
-//                int i4 = i2*i3;
             }
         });
         jb3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = bookTable.getSelectedRow();
-                String s = defaultTableModel.getValueAt(row,0).toString();
+                String s = defaultTableModel.getValueAt(row, 0).toString();
                 int bookid = Integer.parseInt(s);
                 ArrayList<DataStorage> deleteData = new ArrayList<>();
                 try {
                     DataStorage obj;
                     FileInputStream filein = new FileInputStream("Books.dat");
                     ObjectInputStream objin = new ObjectInputStream(filein);
-
-                    while(filein.available() != 0){
-                        obj = (DataStorage)objin.readObject();
-                        if(obj.getBid() != bookid){
+                    while (filein.available() != 0) {
+                        obj = (DataStorage) objin.readObject();
+                        if (obj.getBid() != bookid) {
                             deleteData.add(obj);
                         }
-//
                     }
                     filein.close();
                     objin.close();
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                if(row >= 0){
+                if (row >= 0) {
                     defaultTableModel.removeRow(row);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(fr, "Delete Error\n", "Alert", JOptionPane.WARNING_MESSAGE);
                 }
-
-                try{
+                try {
                     File f = new File("Books.dat");
                     FileOutputStream fileout = null;
                     fileout = new FileOutputStream("Books.dat");
-//
-                    // If there is nothing to be write onto file
                     if (f.length() == 0) {
                         ObjectOutputStream oos = new ObjectOutputStream(fileout);
-                        for(DataStorage ob: deleteData){
+                        for (DataStorage ob : deleteData) {
                             oos.writeObject(ob);
                         }
                         oos.close();
-                    }
-                    // There is content in file to be write on
-                    else {
+                    } else {
                         MyObjectOutputStream oos = null;
                         oos = new MyObjectOutputStream(fileout);
-                        for(DataStorage ob: deleteData){
+                        for (DataStorage ob : deleteData) {
                             oos.writeObject(ob);
                         }
                         oos.close();
                     }
-                }catch (Exception ex) {
-
-                    // Print the exception along with the
-                    // display message
+                } catch (Exception ex) {
                     System.out.println("Error Occurred" + ex);
                 }
                 finaldatalist1 = deleteData;
@@ -557,79 +510,56 @@ class BookData extends JFrame {
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 ArrayList<DataStorage> finaldatalist = new ArrayList<>();
                 try {
                     System.out.println("I am here in load");
-
                     DataStorage obj;
                     FileInputStream filein = new FileInputStream("Books.dat");
                     ObjectInputStream objin = new ObjectInputStream(filein);
-
-                    while(filein.available() != 0){
-                        obj = (DataStorage)objin.readObject();
+                    while (filein.available() != 0) {
+                        obj = (DataStorage) objin.readObject();
                         finaldatalist.add(obj);
-//                        System.out.println(obj);
                     }
                     filein.close();
                     objin.close();
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
-                while(defaultTableModel.getRowCount() > 0)
-                {
+                while (defaultTableModel.getRowCount() > 0) {
                     defaultTableModel.removeRow(0);
                 }
-                for(int i = 0; i < finaldatalist.size(); i++){
+                for (int i = 0; i < finaldatalist.size(); i++) {
 
-                        Object[] objs = {finaldatalist.get(i).getBid(),finaldatalist.get(i).getBname(),finaldatalist.get(i).getAname(),finaldatalist.get(i).getPname(),
-                                finaldatalist.get(i).getDateofpub(),finaldatalist.get(i).getBookq(), finaldatalist.get(i).getBookp(), finaldatalist.get(i).getTotalcost()};
-                        defaultTableModel.addRow(objs);
-//                    System.out.println(finaldatalist1.get(i).getBid());
-
+                    Object[] objs = {finaldatalist.get(i).getBid(), finaldatalist.get(i).getBname(), finaldatalist.get(i).getAname(), finaldatalist.get(i).getPname(),
+                            finaldatalist.get(i).getDateofpub(), finaldatalist.get(i).getBookq(), finaldatalist.get(i).getBookp(), finaldatalist.get(i).getTotalcost()};
+                    defaultTableModel.addRow(objs);
                 }
             }
         });
     }
-
-
 }
+
 //});
 class MyObjectOutputStream extends ObjectOutputStream {
 
-    // Constructor of this class
-    // 1. Default
-    MyObjectOutputStream() throws IOException
-    {
-
-        // Super keyword refers to parent class instance
+    MyObjectOutputStream() throws IOException {
         super();
     }
 
-    // Constructor of this class
-    // 1. Parameterized constructor
-    MyObjectOutputStream(OutputStream o) throws IOException
-    {
+    MyObjectOutputStream(OutputStream o) throws IOException {
         super(o);
     }
 
-    // Method of this class
-    public void writeStreamHeader() throws IOException
-    {
-        return;
+    public void writeStreamHeader() {
     }
 }
-public class Book {
 
+public class Book {
     public static void main(String[] args) {
         BookData ss = new BookData();
         ss.setVisible(true);
-        ss.setSize(1920,1080);
-        ss.setLocation(-8,-4);
-
+        ss.setSize(1920, 1080);
+        ss.setLocation(-8, -4);
     }
-
 }
 

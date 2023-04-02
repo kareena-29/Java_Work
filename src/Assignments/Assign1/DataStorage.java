@@ -32,9 +32,9 @@ public class DataStorage implements Serializable {
     }
 
     public int getBookq(){
-        return bid;
+        return bookq;
     }
-    public void setBookq(int book){
+    public void setBookq(int bookq){
         this.bookq = bookq;
     }
 
