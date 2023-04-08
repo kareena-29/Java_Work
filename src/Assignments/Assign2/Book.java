@@ -38,7 +38,7 @@ class BookData extends JFrame {
 
         cont = getContentPane();
         cont.setLayout(null);
-        cont.setBackground(new Color(51,53,51));
+        cont.setBackground(new Color(51, 53, 51));
 
         l1 = new JLabel("ENTER BOOK NAME: ");
         l2 = new JLabel("ENTER AUTHOR NAME/NAMES: ");
@@ -87,29 +87,29 @@ class BookData extends JFrame {
         Border border = BorderFactory.createEmptyBorder();
         j1.setBackground(new Color(180, 184, 171));
         j1.setBorder(border);
-        j1.setForeground(new Color(51,53,51));
+        j1.setForeground(new Color(51, 53, 51));
         j2.setBackground(new Color(180, 184, 171));
         j2.setBorder(border);
-        j2.setForeground(new Color(51,53,51));
+        j2.setForeground(new Color(51, 53, 51));
         j3.setBackground(new Color(180, 184, 171));
         j3.setBorder(border);
-        j3.setForeground(new Color(51,53,51));
+        j3.setForeground(new Color(51, 53, 51));
         j4.setBackground(new Color(180, 184, 171));
         j4.setBorder(border);
-        j4.setForeground(new Color(51,53,51));
+        j4.setForeground(new Color(51, 53, 51));
         j5.setBackground(new Color(180, 184, 171));
         j5.setBorder(border);
-        j5.setForeground(new Color(51,53,51));
+        j5.setForeground(new Color(51, 53, 51));
 
         j6.setBackground(new Color(180, 184, 171));
         j6.setBorder(border);
-        j6.setForeground(new Color(51,53,51));
+        j6.setForeground(new Color(51, 53, 51));
         j7.setBackground(new Color(180, 184, 171));
         j7.setBorder(border);
-        j7.setForeground(new Color(51,53,51));
+        j7.setForeground(new Color(51, 53, 51));
         j8.setBackground(new Color(180, 184, 171));
         j8.setBorder(border);
-        j8.setForeground(new Color(51,53,51));
+        j8.setForeground(new Color(51, 53, 51));
 
         l1.setForeground(new Color(244, 249, 233));
         l2.setForeground(new Color(244, 249, 233));
@@ -124,7 +124,7 @@ class BookData extends JFrame {
         jb1 = new JButton("SUBMIT");
         jb1.setBounds(305, 693, 96, 30);
         jb1.setBackground(new Color(180, 184, 171));
-        jb1.setForeground(new Color(51,53,51));
+        jb1.setForeground(new Color(51, 53, 51));
         jb1.setBorderPainted(false);
         jb1.setFont(f);
         cont.add(jb1);
@@ -133,7 +133,7 @@ class BookData extends JFrame {
         jb2 = new JButton("UPDATE");
         jb2.setBounds(423, 693, 96, 30);
         jb2.setBackground(new Color(180, 184, 171));
-        jb2.setForeground(new Color(51,53,51));
+        jb2.setForeground(new Color(51, 53, 51));
         jb2.setBorderPainted(false);
         jb2.setFont(f);
         cont.add(jb2);
@@ -141,7 +141,7 @@ class BookData extends JFrame {
         jb3 = new JButton("DELETE");
         jb3.setBounds(542, 693, 96, 30);
         jb3.setBackground(new Color(180, 184, 171));
-        jb3.setForeground(new Color(51,53,51));
+        jb3.setForeground(new Color(51, 53, 51));
         jb3.setBorderPainted(false);
         jb3.setFont(f);
         cont.add(jb3);
@@ -149,7 +149,7 @@ class BookData extends JFrame {
         jb4 = new JButton("LOAD");
         jb4.setBounds(660, 693, 96, 30);
         jb4.setBackground(new Color(180, 184, 171));
-        jb4.setForeground(new Color(51,53,51));
+        jb4.setForeground(new Color(51, 53, 51));
         jb4.setBorderPainted(false);
         jb4.setFont(f);
         cont.add(jb4);
@@ -171,7 +171,7 @@ class BookData extends JFrame {
         DateChooser dateChooser = new DateChooser();
         dateChooser.setDateFormat("yyyy-MM-dd");
         dateChooser.setTextRefernce(j5);
-        dateChooser.setForeground(new Color(51,53,51));
+        dateChooser.setForeground(new Color(51, 53, 51));
         jb5.addActionListener(event -> {
             dateChooser.showPopup();
         });
@@ -193,7 +193,7 @@ class BookData extends JFrame {
         f = new Font("Century Gothic", Font.PLAIN, 13);
         bookTable.setFont(f);
         bookTable.getTableHeader().setBackground(new Color(180, 184, 171));
-        bookTable.getTableHeader().setForeground(new Color(51,53,51));
+        bookTable.getTableHeader().setForeground(new Color(51, 53, 51));
         bookTable.getTableHeader().setBorder(new EmptyBorder(0, 0, 0, 0));
         bookTable.getTableHeader().setFont(f);
         this.add(jspBookTable);
@@ -237,7 +237,6 @@ class BookData extends JFrame {
         cont.add(j6);
         cont.add(j7);
         cont.add(j8);
-
 
 
 //
@@ -284,22 +283,20 @@ class BookData extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int s = bookTable.getSelectedRow();
-                j1.setText(bookTable.getModel().getValueAt(s,1).toString());
-                j2.setText(bookTable.getModel().getValueAt(s,2).toString());
-                j3.setText(bookTable.getModel().getValueAt(s,0).toString());
-                j4.setText(bookTable.getModel().getValueAt(s,3).toString());
-                j5.setText(bookTable.getModel().getValueAt(s,4).toString());
-                j6.setText(bookTable.getModel().getValueAt(s,5).toString());
-                j7.setText(bookTable.getModel().getValueAt(s,6).toString());
-                j8.setText(bookTable.getModel().getValueAt(s,7).toString());
+                j1.setText(bookTable.getModel().getValueAt(s, 1).toString());
+                j2.setText(bookTable.getModel().getValueAt(s, 2).toString());
+                j3.setText(bookTable.getModel().getValueAt(s, 0).toString());
+                j4.setText(bookTable.getModel().getValueAt(s, 3).toString());
+                j5.setText(bookTable.getModel().getValueAt(s, 4).toString());
+                j6.setText(bookTable.getModel().getValueAt(s, 5).toString());
+                j7.setText(bookTable.getModel().getValueAt(s, 6).toString());
+                j8.setText(bookTable.getModel().getValueAt(s, 7).toString());
             }
         });
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 ||
-                        j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 || j7.getText().length() == 0 ||
-                        j8.getText().length() == 0) {
+                if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 || j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 || j7.getText().length() == 0 || j8.getText().length() == 0) {
                     JOptionPane.showMessageDialog(fr, "Text field is mandatory\n", "Alert", JOptionPane.WARNING_MESSAGE);
                 } else {
                     bname = j1.getText();
@@ -312,14 +309,13 @@ class BookData extends JFrame {
                     q = Integer.parseInt(st1);
                     String st2 = j6.getText();
                     p = Integer.parseInt(st2);
-                    String query = "insert into book (bid, bname, aname, pname, pdate, price, qty) " +
-                            "values ('"+id+"','"+bname+"','"+aname+"','"+pname+"','"+dt+"','"+p+"','"+q+"');";
+                    String query = "insert into book (bid, bname, aname, pname, pdate, price, qty) " + "values ('" + id + "','" + bname + "','" + aname + "','" + pname + "','" + dt + "','" + p + "','" + q + "');";
                     Connection con = Conjdbc.getConnection();
-                    try{
+                    try {
                         Statement st = con.createStatement();
                         int updatedr = st.executeUpdate(query);
                         System.out.println(updatedr);
-                    }catch (Exception ee) {
+                    } catch (Exception ee) {
                         ee.printStackTrace();
                     }
                     j1.setText("");
@@ -336,9 +332,7 @@ class BookData extends JFrame {
         jb2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 ||
-                        j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 || j7.getText().length() == 0 ||
-                        j8.getText().length() == 0) {
+                if (j1.getText().length() == 0 || j2.getText().length() == 0 || j3.getText().length() == 0 || j4.getText().length() == 0 || j5.getText().length() == 0 || j6.getText().length() == 0 || j7.getText().length() == 0 || j8.getText().length() == 0) {
                     JOptionPane.showMessageDialog(fr, "Text field is mandatory\n", "Alert", JOptionPane.WARNING_MESSAGE);
                 } else {
                     bname = j1.getText();
@@ -352,13 +346,13 @@ class BookData extends JFrame {
                     String st2 = j6.getText();
                     p = Integer.parseInt(st2);
 
-                    String query = "update book set bname = '"+bname+"', aname = '"+aname+"', pname = '"+pname+"', pdate = '"+dt+"', price = '"+p+"', qty = '"+q+"' where bid = '"+id+"';";
+                    String query = "update book set bname = '" + bname + "', aname = '" + aname + "', pname = '" + pname + "', pdate = '" + dt + "', price = '" + p + "', qty = '" + q + "' where bid = '" + id + "';";
                     Connection con = Conjdbc.getConnection();
-                    try{
+                    try {
                         Statement st = con.createStatement();
                         int updatedr = st.executeUpdate(query);
                         System.out.println(updatedr);
-                    }catch (Exception ee) {
+                    } catch (Exception ee) {
                         ee.printStackTrace();
                     }
                     j1.setText("");
@@ -376,7 +370,7 @@ class BookData extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = bookTable.getSelectedRow();
-                String query = "delete from book where bid= '"+row+"';";
+                String query = "delete from book where bid= '" + row + "';";
                 Connection con = Conjdbc.getConnection();
 
                 try {
@@ -385,7 +379,7 @@ class BookData extends JFrame {
 
                     System.out.println(delrow);
 
-                }catch(Exception ee){
+                } catch (Exception ee) {
                     ee.printStackTrace();
                 }
                 defaultTableModel.removeRow(row);
@@ -409,11 +403,11 @@ class BookData extends JFrame {
                 String query = "select * from book";
                 Connection con = Conjdbc.getConnection();
 
-                try{
+                try {
                     Statement st = con.createStatement();
                     ResultSet rs = st.executeQuery(query);
 
-                    while(rs.next()){
+                    while (rs.next()) {
                         int id = rs.getInt("bid");
                         String bname = rs.getString("bname");
                         String aname = rs.getString("aname");
@@ -424,12 +418,12 @@ class BookData extends JFrame {
                         int tot = rs.getInt("amt");
 
 
-                        Object[] obj = {id,bname,aname,pname,date,qty,price,tot};
+                        Object[] obj = {id, bname, aname, pname, date, qty, price, tot};
                         defaultTableModel.addRow(obj);
                     }
 //                    st.close();
 //                    con.close();
-                }catch (Exception ee) {
+                } catch (Exception ee) {
                     ee.printStackTrace();
                 }
             }
@@ -465,14 +459,14 @@ public class Book {
             @Override
             public void windowClosing(WindowEvent e) {
                 Connection con = Conjdbc.getConnection();
-                try{
+                try {
                     Statement st = con.createStatement();
 
                     con.close();
                     st.close();
                     System.out.println("Closed");
                     System.exit(0);
-                }catch(Exception ee){
+                } catch (Exception ee) {
                     ee.printStackTrace();
                 }
             }
